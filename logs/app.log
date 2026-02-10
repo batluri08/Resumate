@@ -1,3 +1,405 @@
 2026-02-10 21:23:34 - restlessresume.app.main - INFO - startup_event:99 - ✅ Database initialized successfully!
 2026-02-10 21:36:24 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
 2026-02-10 21:36:24 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication
+2026-02-10 18:13:08 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-10 18:13:08 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication
+2026-02-10 18:13:17 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 18:13:17 - restlessresume.app.main - ERROR - general_exception_handler:86 - Unexpected error: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'gobhuya@gmail.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 83, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gobhu\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\fastapi\concurrency.py", line 35, in contextmanager_in_threadpool
+    raise e
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'gobhuya@gmail.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-10 18:13:26 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: atluribhumika08@gmail.com
+2026-02-10 18:13:26 - restlessresume.app.main - ERROR - general_exception_handler:86 - Unexpected error: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'atluribhumika08@gmail.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 83, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gobhu\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\fastapi\concurrency.py", line 35, in contextmanager_in_threadpool
+    raise e
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'atluribhumika08@gmail.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-10 18:13:31 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-10 18:13:31 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication
+2026-02-10 18:14:45 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: test@example.com
+2026-02-10 18:14:45 - restlessresume.app.main - ERROR - general_exception_handler:86 - Unexpected error: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'test@example.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 83, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gobhu\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\fastapi\concurrency.py", line 35, in contextmanager_in_threadpool
+    raise e
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'test@example.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-10 18:14:45 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: test@example.com
+2026-02-10 18:14:45 - restlessresume.app.main - ERROR - general_exception_handler:86 - Unexpected error: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'test@example.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedColumn: column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 83, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 762, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 782, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\gobhu\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 222, in __aexit__
+    await self.gen.athrow(typ, value, traceback)
+  File "C:\Users\gobhu\RestlessResume\.venv\Lib\site-packages\fastapi\concurrency.py", line 35, in contextmanager_in_threadpool
+    raise e
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column users.profile_picture does not exist
+LINE 1: ...AS users_password_hash, users.name AS users_name, users.prof...
+                                                             ^
+
+[SQL: SELECT users.id AS users_id, users.email AS users_email, users.password_hash AS users_password_hash, users.name AS users_name, users.profile_picture AS users_profile_picture, users.created_at AS users_created_at, users.is_active AS users_is_active 
+FROM users 
+WHERE users.email = %(email_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'email_1': 'test@example.com', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: test@example.com
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - signup:126 - User signup successful: id=3, email=test@example.com
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - signup:132 - Session token created for user 3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: test@example.com
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=3, email=test@example.com
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.resume - INFO - upload_profile_picture:75 - Profile picture updated for user: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=3
+2026-02-10 18:15:37 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: test2@example.com
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - INFO - signup:126 - User signup successful: id=4, email=test2@example.com
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - DEBUG - signup:132 - Session token created for user 4
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=4
+2026-02-10 18:15:38 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=4
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: test2@example.com
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=4, email=test2@example.com
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 4
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=4
+2026-02-10 18:15:38 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=4
+2026-02-10 18:15:38 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=4
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:15:57 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:15:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:03 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=2
+2026-02-10 18:16:11 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: gobhuya@gmail.com
+2026-02-10 18:16:11 - restlessresume.app.routers.auth - ERROR - signup:154 - Signup error for gobhuya@gmail.com: Email already registered
+2026-02-10 18:16:20 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: gobhuya@gmail.com
+2026-02-10 18:16:20 - restlessresume.app.routers.auth - ERROR - signup:154 - Signup error for gobhuya@gmail.com: Email already registered
+2026-02-10 18:16:30 - restlessresume.app.routers.auth - INFO - signup:109 - Signup attempt for email: f@gmail.com
+2026-02-10 18:16:30 - restlessresume.app.routers.auth - INFO - signup:126 - User signup successful: id=5, email=f@gmail.com
+2026-02-10 18:16:30 - restlessresume.app.routers.auth - DEBUG - signup:132 - Session token created for user 5
+2026-02-10 18:16:30 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:30 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=5
+2026-02-10 18:16:31 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:31 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:38 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:38 - restlessresume.app.routers.resume - INFO - upload_profile_picture:75 - Profile picture updated for user: id=5
+2026-02-10 18:16:40 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=5
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: f@gmail.com
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=5, email=f@gmail.com
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 5
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:43 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=5
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:16:45 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=5
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:48 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:48 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:53 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:53 - restlessresume.app.routers.resume - INFO - upload_profile_picture:75 - Profile picture updated for user: id=2
+2026-02-10 18:16:54 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=2
+2026-02-10 18:16:57 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 18:16:58 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-10 18:16:58 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-10 18:16:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:58 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 18:16:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:16:59 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=2
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: f@gmail.com
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=5, email=f@gmail.com
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 5
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:17:03 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=5
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:17:03 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=5
+2026-02-10 18:17:05 - restlessresume.app.routers.auth - INFO - logout:230 - Logout for user: id=5
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:09 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:09 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:17 - restlessresume.app.routers.resume - INFO - upload_resume:578 - Resume upload initiated: user_id=2, filename=Bhumika Atluri - Resume  (1).docx
+2026-02-10 18:17:17 - restlessresume.app.routers.resume - DEBUG - upload_resume:606 - Resume file saved: path=uploads/resumes/2_f3dc428c-993c-49ad-b5f8-be545e960904.docx
+2026-02-10 18:17:17 - restlessresume.app.routers.resume - DEBUG - upload_resume:611 - Resume content parsed: user_id=2, content_length=6909
+2026-02-10 18:17:20 - restlessresume.app.routers.resume - DEBUG - upload_resume:616 - Resume preview generated: user_id=2
+2026-02-10 18:17:20 - restlessresume.app.routers.resume - INFO - upload_resume:639 - Resume saved to database: id=3, user_id=2
+2026-02-10 18:17:21 - restlessresume.app.routers.resume - DEBUG - upload_resume:648 - Resume embedding stored in ChromaDB: resume_id=3
+2026-02-10 18:17:21 - restlessresume.app.routers.resume - INFO - upload_resume:660 - Resume upload successful: id=3, user_id=2, session_id=f3dc428c-993c-49ad-b5f8-be545e960904
+2026-02-10 18:17:21 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:21 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:27 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:27 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=0b6766fe-1d62-4134-9a47-d32e322e56bc, user_id=2
+2026-02-10 18:17:27 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: 0b6766fe-1d62-4134-9a47-d32e322e56bc
+2026-02-10 18:17:27 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['f3dc428c-993c-49ad-b5f8-be545e960904', '0b6766fe-1d62-4134-9a47-d32e322e56bc']
+2026-02-10 18:17:27 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=6909
+2026-02-10 18:17:27 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-10 18:17:29 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:37 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=6, suggestions_count=7
+2026-02-10 18:17:37 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 6909
+2026-02-10 18:17:37 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 6
+2026-02-10 18:17:37 - restlessresume.app.routers.resume - DEBUG - optimize_resume:756 - Optimized document written: path=uploads/0b6766fe-1d62-4134-9a47-d32e322e56bc_optimized.docx
+2026-02-10 18:17:37 - restlessresume.app.routers.resume - DEBUG - optimize_resume:773 - Diff HTML generated
+2026-02-10 18:17:40 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
+2026-02-10 18:17:40 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=5, user_id=2
+2026-02-10 18:17:40 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=0b6766fe-1d62-4134-9a47-d32e322e56bc, user_id=2
+2026-02-10 18:17:49 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:49 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:53 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 18:17:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:57 - restlessresume.app.routers.resume - INFO - profile_page:50 - Profile page accessed by user: id=2
+2026-02-10 18:17:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:58 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 18:17:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:17:58 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:18:00 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 18:18:00 - restlessresume.app.routers.resume - INFO - profile_page:50 - Profile page accessed by user: id=2
+2026-02-10 18:18:00 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
