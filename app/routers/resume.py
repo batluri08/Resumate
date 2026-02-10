@@ -51,6 +51,53 @@ async def profile_page(request: Request, user: User = Depends(get_current_user))
     return templates.TemplateResponse("profile.html", {"request": request, "user": user})
 
 
+@router.post("/api/profile/picture")
+async def upload_profile_picture(
+    request: Request,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Upload and save user's profile picture to database"""
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    try:
+        data = await request.json()
+        picture_data = data.get("picture")
+        
+        if not picture_data:
+            raise HTTPException(status_code=400, detail="No picture data provided")
+        
+        # Save to user's profile
+        user.profile_picture = picture_data
+        db.commit()
+        
+        logger.info(f"Profile picture updated for user: id={user.id}")
+        return JSONResponse({
+            "success": True,
+            "message": "Profile picture saved",
+            "picture": picture_data
+        })
+    except Exception as e:
+        logger.error(f"Error uploading profile picture: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error saving picture: {str(e)}")
+
+
+@router.get("/api/profile/picture")
+async def get_profile_picture(
+    request: Request,
+    user: User = Depends(get_current_user)
+):
+    """Get user's profile picture from database"""
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    
+    return JSONResponse({
+        "success": True,
+        "picture": user.profile_picture
+    })
+
+
 @router.get("/history")
 async def history_page(request: Request, user: User = Depends(get_current_user)):
     """Render the optimization history page"""

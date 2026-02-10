@@ -1,0 +1,3 @@
+2026-02-10 21:23:34 - restlessresume.app.main - INFO - startup_event:99 - ✅ Database initialized successfully!
+2026-02-10 21:36:24 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-10 21:36:24 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication

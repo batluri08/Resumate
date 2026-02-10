@@ -264,22 +264,14 @@ function setupProfilePictureUpload() {
     
     if (!avatarContainer || !profilePictureInput) return;
     
-    // Load saved profile picture
-    const savedPicture = localStorage.getItem('profilePicture');
-    if (savedPicture && avatarInitial) {
-        avatarInitial.style.display = 'none';
-        const img = document.createElement('img');
-        img.src = savedPicture;
-        img.alt = 'Profile';
-        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
-        avatarContainer.insertBefore(img, avatarInitial);
-    }
+    // Load profile picture from database, with localStorage fallback
+    loadProfilePictureFromDatabase(avatarContainer, avatarInitial);
     
     avatarContainer.addEventListener('click', () => {
         profilePictureInput.click();
     });
     
-    profilePictureInput.addEventListener('change', (e) => {
+    profilePictureInput.addEventListener('change', async (e) => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
             
@@ -294,28 +286,96 @@ function setupProfilePictureUpload() {
             }
             
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = async (event) => {
                 const imageData = event.target.result;
                 
-                // Remove initial and add image
-                if (avatarInitial) avatarInitial.style.display = 'none';
+                // Update display immediately
+                updateProfilePictureDisplay(avatarContainer, avatarInitial, imageData);
                 
-                // Remove existing image if any
-                const existingImg = avatarContainer.querySelector('img');
-                if (existingImg) existingImg.remove();
-                
-                const img = document.createElement('img');
-                img.src = imageData;
-                img.alt = 'Profile';
-                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
-                avatarContainer.insertBefore(img, profilePictureInput);
-                
-                localStorage.setItem('profilePicture', imageData);
-                showToast('Profile picture updated!');
+                // Save to database via API
+                try {
+                    const response = await fetch('/resume/api/profile/picture', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            picture: imageData
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        // Cache in localStorage for faster local access
+                        localStorage.setItem('profilePicture', imageData);
+                        showToast('Profile picture updated successfully!');
+                    }
+                } catch (error) {
+                    console.error('Error saving profile picture:', error);
+                    // Fallback to localStorage if API fails
+                    localStorage.setItem('profilePicture', imageData);
+                    showToast('Profile picture saved locally (sync pending)');
+                }
             };
             reader.readAsDataURL(file);
         }
     });
+}
+
+// Helper function to update profile picture display
+function updateProfilePictureDisplay(avatarContainer, avatarInitial, imageData) {
+    if (!avatarContainer) return;
+    
+    // Hide initial if present
+    if (avatarInitial) avatarInitial.style.display = 'none';
+    
+    // Remove existing image if any
+    const existingImg = avatarContainer.querySelector('img');
+    if (existingImg) existingImg.remove();
+    
+    // Add new image
+    const img = document.createElement('img');
+    img.src = imageData;
+    img.alt = 'Profile';
+    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
+    const profilePictureInput = document.getElementById('profile-picture-input');
+    avatarContainer.insertBefore(img, profilePictureInput);
+}
+
+// Load profile picture from database with localStorage fallback
+async function loadProfilePictureFromDatabase(avatarContainer, avatarInitial) {
+    try {
+        const response = await fetch('/resume/api/profile/picture', {
+            method: 'GET'
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success && result.picture) {
+                updateProfilePictureDisplay(avatarContainer, avatarInitial, result.picture);
+                // Cache in localStorage
+                localStorage.setItem('profilePicture', result.picture);
+                return;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading profile picture from database:', error);
+    }
+    
+    // Fallback to localStorage if database fetch fails
+    const savedPicture = localStorage.getItem('profilePicture');
+    if (savedPicture && avatarInitial) {
+        avatarInitial.style.display = 'none';
+        const img = document.createElement('img');
+        img.src = savedPicture;
+        img.alt = 'Profile';
+        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; border-radius: 50%;';
+        avatarContainer.insertBefore(img, document.getElementById('profile-picture-input'));
+    }
 }
 
 // Update process step indicator

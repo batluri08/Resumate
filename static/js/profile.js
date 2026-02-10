@@ -98,56 +98,111 @@ function setupProfilePictureUpload() {
             
             // Convert to base64 and display
             const reader = new FileReader();
-            reader.onload = (event) => {
+            reader.onload = async (event) => {
                 const imageData = event.target.result;
                 
-                // Update avatar display
-                avatarContainer.innerHTML = `
-                    <img src="${imageData}" alt="Profile" class="avatar-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                    <input type="file" id="profile-picture-input" accept="image/*" hidden>
-                `;
+                // Update avatar display immediately
+                updateAvatarDisplay(imageData);
                 
-                // Re-attach event listener to new input
-                const newInput = document.getElementById('profile-picture-input');
-                newInput.addEventListener('change', arguments.callee);
-                
-                // Save to localStorage
-                localStorage.setItem('profilePicture', imageData);
-                
-                showToast('Profile picture updated!');
+                // Save to database via API
+                try {
+                    const response = await fetch('/resume/api/profile/picture', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            picture: imageData
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        // Also cache in localStorage for faster local access
+                        localStorage.setItem('profilePicture', imageData);
+                        showToast('Profile picture updated successfully!');
+                    }
+                } catch (error) {
+                    console.error('Error saving profile picture:', error);
+                    // Fallback to localStorage if API fails
+                    localStorage.setItem('profilePicture', imageData);
+                    showToast('Profile picture saved locally (sync pending)');
+                }
             };
             reader.readAsDataURL(file);
         }
     });
     
-    // Load saved profile picture on init
+    // Load saved profile picture on init from database
+    loadProfilePictureFromDatabase();
+}
+
+// Helper function to update avatar display
+function updateAvatarDisplay(imageData) {
+    const avatarContainer = document.getElementById('profile-avatar-container');
+    if (!avatarContainer) return;
+    
+    avatarContainer.innerHTML = `
+        <img src="${imageData}" alt="Profile" class="avatar-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+        <input type="file" id="profile-picture-input" accept="image/*" hidden>
+    `;
+    
+    // Re-attach event listener to new input
+    const newInput = document.getElementById('profile-picture-input');
+    if (newInput) {
+        newInput.addEventListener('change', arguments.callee);
+    }
+}
+
+// Load profile picture from database
+async function loadProfilePictureFromDatabase() {
+    try {
+        const response = await fetch('/resume/api/profile/picture', {
+            method: 'GET'
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success && result.picture) {
+                updateAvatarDisplay(result.picture);
+                // Cache in localStorage
+                localStorage.setItem('profilePicture', result.picture);
+                return;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading profile picture from database:', error);
+    }
+    
+    // Fallback to localStorage if database fetch fails
     const savedPicture = localStorage.getItem('profilePicture');
     if (savedPicture) {
-        avatarContainer.innerHTML = `
-            <img src="${savedPicture}" alt="Profile" class="avatar-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-            <input type="file" id="profile-picture-input" accept="image/*" hidden>
-        `;
-        // Re-setup the event listener
-        const newInput = document.getElementById('profile-picture-input');
-        if (newInput) {
-            newInput.addEventListener('change', function(e) {
-                if (e.target.files.length > 0) {
-                    const file = e.target.files[0];
-                    if (!file.type.startsWith('image/')) {
-                        alert('Please select an image file.');
-                        return;
-                    }
-                    if (file.size > 2 * 1024 * 1024) {
-                        alert('Image size must be less than 2MB.');
-                        return;
-                    }
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        const imageData = event.target.result;
-                        avatarContainer.innerHTML = `
-                            <img src="${imageData}" alt="Profile" class="avatar-image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                            <input type="file" id="profile-picture-input" accept="image/*" hidden>
-                        `;
+        updateAvatarDisplay(savedPicture);
+        return;
+    }
+    
+    // If no picture exists, setup event listeners for new upload
+    const profilePictureInput = document.getElementById('profile-picture-input');
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file.');
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Image size must be less than 2MB.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const imageData = event.target.result;
+                    updateAvatarDisplay(imageData);
                         localStorage.setItem('profilePicture', imageData);
                         showToast('Profile picture updated!');
                     };
