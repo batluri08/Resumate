@@ -17,9 +17,9 @@ services:
     container_name: restless-resume-db-prod
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Bhumi}
+      POSTGRES_DB: ${DB_NAME:-restless_resume}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C --max_connections=200"
     volumes:
       - postgres_data_prod:/var/lib/postgresql/data

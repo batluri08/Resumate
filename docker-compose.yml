@@ -6,8 +6,8 @@ services:
     image: postgres:16-alpine
     container_name: restless-resume-db
     environment:
-      POSTGRES_USER: ${DB_USER:-resumeuser}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-réssumépassword123}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Bhumi}
       POSTGRES_DB: ${DB_NAME:-restless_resume}
     volumes:
       - postgres_data:/var/lib/postgresql/data
