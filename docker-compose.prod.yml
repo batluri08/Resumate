@@ -1,0 +1,113 @@
+version: '3.8'
+
+# Production Docker Compose Configuration
+# Usage: docker-compose -f docker-compose.prod.yml up -d
+# 
+# Key differences from development:
+# - No volume mounts for code (uses prebuilt image)
+# - Always restart containers
+# - Resource limits set
+# - External volumes for persistence
+# - Stricter health checks
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: restless-resume-db-prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C --max_connections=200"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      # Backup script (optional)
+      # - ./backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - restless-network-prod
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  # FastAPI Application
+  app:
+    image: ${DOCKER_REGISTRY:-docker.io}/restless-resume:${DOCKER_IMAGE_TAG:-latest}
+    container_name: restless-resume-app-prod
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      ENVIRONMENT: production
+      LOG_LEVEL: INFO
+      SESSION_SECRET_KEY: ${SESSION_SECRET_KEY}
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persistent volumes for uploads and logs
+      - uploads_data_prod:/app/uploads
+      - logs_data_prod:/app/logs
+      - chromadb_data:/app/chroma_data
+    networks:
+      - restless-network-prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-s", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+  # Optional: Nginx Reverse Proxy
+  # Uncomment to use Nginx in front of the app
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: restless-resume-proxy-prod
+  #   restart: always
+  #   depends_on:
+  #     - app
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl/certs:/etc/nginx/certs:ro
+  #   networks:
+  #     - restless-network-prod
+
+volumes:
+  postgres_data_prod:
+    driver: local
+  uploads_data_prod:
+    driver: local
+  logs_data_prod:
+    driver: local
+  chromadb_data:
+    driver: local
+
+networks:
+  restless-network-prod:
+    driver: bridge

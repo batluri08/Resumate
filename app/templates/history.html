@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - Resumate</title>
+    <link rel="icon" type="image/svg+xml" href="/static/images/resumate-dna.svg">
+    <link rel="stylesheet" href="/static/css/style.css?v=11">
+    <style>
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box input {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #1e293b;
+            width: 250px;
+        }
+        
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .history-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.2s, transform 0.1s;
+            cursor: pointer;
+        }
+        
+        .history-item:hover {
+            border-color: #6366f1;
+            transform: translateX(4px);
+        }
+        
+        .history-info {
+            flex: 1;
+        }
+        
+        .history-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .history-company {
+            color: #6366f1;
+            font-size: 0.95rem;
+        }
+        
+        .history-meta {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .score-badge {
+            background: #22c55e;
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .score-badge.low {
+            background: #ef4444;
+        }
+        
+        .score-badge.medium {
+            background: #f59e0b;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+        
+        .empty-state h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .empty-state a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+        
+        .empty-state a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: #1e293b;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+        
+        .modal-close:hover {
+            color: #1e293b;
+        }
+        
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-section h3 {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .changes-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .changes-list li {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .change-find {
+            color: #ef4444;
+            text-decoration: line-through;
+        }
+        
+        .change-replace {
+            color: #22c55e;
+        }
+        
+        .change-reason {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="/resume" class="sidebar-brand">
+                <span class="brand-wordmark">Resumate</span>
+            </a>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                {% if user.profile_picture %}
+                <img src="{{ user.profile_picture }}" alt="Profile" class="avatar-image">
+                {% else %}
+                <span class="avatar-initial">{{ user.name[:1].upper() if user.name else user.email[:1].upper() }}</span>
+                {% endif %}
+            </div>
+            <div class="profile-name">{{ user.name or user.email.split('@')[0] }}</div>
+            <div class="profile-email">{{ user.email }}</div>
+        </div>
+
+        <!-- Navigation Section -->
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li><a href="/resume" class="nav-item">
+                    <span>Optimize</span>
+                </a></li>
+                <li><a href="/resume/history" class="nav-item active">
+                    <span>History</span>
+                </a></li>
+                <li><a href="/analytics" class="nav-item">
+                    <span>Analytics</span>
+                </a></li>
+                <li><a href="/resume/profile" class="nav-item">
+                    <span>Profile</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Settings Section -->
+        <nav class="sidebar-settings">
+            <ul class="settings-list">
+                <li><form action="/auth/logout" method="POST" style="display: contents;">
+                    <button type="submit" class="settings-item">
+                        <span>Logout</span>
+                    </button>
+                </form></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-container">
+        <div class="content-header">
+            <h1>Optimization History</h1>
+            <p class="tagline">View and download your past resume optimizations</p>
+        </div>
+
+        <main class="main-content">
+            <div class="history-header">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search by job title...">
+                </div>
+            </div>
+            
+            <div id="history-list" class="history-list">
+                <!-- History items will be loaded here -->
+            </div>
+            
+            <div id="empty-state" class="empty-state hidden">
+                <h2>No optimizations yet</h2>
+                <p>Your optimization history will appear here.</p>
+                <p><a href="/resume">Go optimize your first resume</a></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made for job seekers</p>
+        </footer>
+    </div>
+    
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-title">Job Title</h2>
+                    <p id="modal-company" class="history-company"></p>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Changes Made</h3>
+                <ul id="modal-changes" class="changes-list"></ul>
+            </div>
+            
+            <div class="detail-section">
+                <h3>AI Suggestions</h3>
+                <ul id="modal-suggestions" class="changes-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load history on page load
+        document.addEventListener('DOMContentLoaded', loadHistory);
+        
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.querySelectorAll('.history-item').forEach(item => {
+                const title = item.dataset.title.toLowerCase();
+                const company = item.dataset.company?.toLowerCase() || '';
+                if (title.includes(query) || company.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        async function loadHistory() {
+            try {
+                const response = await fetch('/resume/api/history');
+                const history = await response.json();
+                
+                const listEl = document.getElementById('history-list');
+                const emptyEl = document.getElementById('empty-state');
+                
+                if (history.length === 0) {
+                    listEl.classList.add('hidden');
+                    emptyEl.classList.remove('hidden');
+                    return;
+                }
+                
+                listEl.innerHTML = history.map(item => `
+                    <div class="history-item" data-id="${item.id}" data-title="${item.job_title || ''}" data-company="${item.company_name || ''}" onclick="showDetail(${item.id})">
+                        <div class="history-info">
+                            <div class="history-title">
+                                ${item.job_title || 'Untitled Job'}
+                                ${item.company_name ? `<span class="history-company">@ ${item.company_name}</span>` : ''}
+                            </div>
+                            <div class="history-meta">
+                                ${formatDate(item.created_at)}
+                            </div>
+                        </div>
+                        <div class="history-actions">
+                            ${item.match_score ? `<span class="score-badge ${getScoreClass(item.match_score)}">${item.match_score}%</span>` : ''}
+                            ${item.has_file ? `<a href="/resume/download/history/${item.id}" class="download-btn" onclick="event.stopPropagation()">Download</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Failed to load history:', error);
+            }
+        }
+        
+        async function showDetail(id) {
+            try {
+                const response = await fetch(`/resume/api/history/${id}`);
+                const detail = await response.json();
+                
+                document.getElementById('modal-title').textContent = detail.job_title || 'Untitled Job';
+                document.getElementById('modal-company').textContent = detail.company_name ? `@ ${detail.company_name}` : '';
+                
+                // Show changes
+                const changesEl = document.getElementById('modal-changes');
+                if (detail.changes_made && detail.changes_made.length > 0) {
+                    changesEl.innerHTML = detail.changes_made.map(c => `
+                        <li>
+                            <span class="change-find">${escapeHtml(c.find?.substring(0, 100) || '')}...</span>
+                            <br>-> <span class="change-replace">${escapeHtml(c.replace?.substring(0, 100) || '')}...</span>
+                            ${c.reason ? `<div class="change-reason">${escapeHtml(c.reason)}</div>` : ''}
+                        </li>
+                    `).join('');
+                } else {
+                    changesEl.innerHTML = '<li>No changes recorded</li>';
+                }
+                
+                // Show suggestions
+                const suggestionsEl = document.getElementById('modal-suggestions');
+                if (detail.suggestions && detail.suggestions.length > 0) {
+                    suggestionsEl.innerHTML = detail.suggestions.map(s => `<li>${escapeHtml(s)}</li>`).join('');
+                } else {
+                    suggestionsEl.innerHTML = '<li>No suggestions recorded</li>';
+                }
+                
+                document.getElementById('detail-modal').classList.add('show');
+                
+            } catch (error) {
+                console.error('Failed to load detail:', error);
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('show');
+        }
+        
+        // Close modal on outside click
+        document.getElementById('detail-modal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+        
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minutes ago`;
+            if (diffHours < 24) return `${diffHours} hours ago`;
+            if (diffDays < 7) return `${diffDays} days ago`;
+            
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+            });
+        }
+        
+        function getScoreClass(score) {
+            if (score >= 70) return '';
+            if (score >= 50) return 'medium';
+            return 'low';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Load profile picture from localStorage
+        function loadProfilePicture() {
+            const savedPicture = localStorage.getItem('profilePicture');
+            if (savedPicture) {
+                const avatar = document.querySelector('.profile-avatar');
+                const initial = avatar.querySelector('.avatar-initial');
+                if (initial) initial.style.display = 'none';
+                
+                // Remove existing image if any
+                const existingImg = avatar.querySelector('.avatar-image');
+                if (existingImg) existingImg.remove();
+                
+                const img = document.createElement('img');
+                img.src = savedPicture;
+                img.alt = 'Profile';
+                img.className = 'avatar-image';
+                avatar.insertBefore(img, avatar.firstChild);
+            }
+        }
+        loadProfilePicture();
+    </script>
+</body>
+</html>

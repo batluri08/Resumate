@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Resumate</title>
+    <link rel="icon" type="image/svg+xml" href="/static/images/resumate-dna.svg">
+    <link rel="stylesheet" href="/static/css/style.css?v=11">
+    <style>
+        /* Overview Cards */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        
+        .overview-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .overview-card .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #6366f1;
+        }
+        
+        .overview-card .card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        
+        .overview-card .card-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .overview-card.success .card-value { color: #22c55e; }
+        
+        /* Charts Section */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        /* Activity Trend */
+        .trend-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 150px;
+            padding-top: 1rem;
+            gap: 0.5rem;
+        }
+        
+        .trend-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .trend-fill {
+            width: 100%;
+            max-width: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            min-height: 4px;
+        }
+        
+        .trend-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .trend-count {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6366f1;
+        }
+        
+        /* List styles */
+        .data-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .data-name {
+            font-weight: 500;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #1e293b;
+        }
+        
+        .data-count {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        /* Keywords Section */
+        .keywords-section {
+            margin-bottom: 2rem;
+        }
+        
+        .keywords-section h2 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        
+        .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .keyword-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        .keyword-card h4 {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+            text-transform: capitalize;
+        }
+        
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .keyword-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.6rem;
+            background: #f8fafc;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .keyword-item .count {
+            background: #6366f1;
+            color: white;
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+        
+        .empty-state p {
+            margin-top: 0.5rem;
+        }
+        
+        .tips-list {
+            text-align: left;
+            margin-top: 1rem;
+            color: #64748b;
+            list-style: disc;
+            padding-left: 1.5rem;
+        }
+        
+        .tips-list li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="/resume" class="sidebar-brand">
+                <span class="brand-wordmark">Resumate</span>
+            </a>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                {% if user.profile_picture %}
+                <img src="{{ user.profile_picture }}" alt="Profile" class="avatar-image">
+                {% else %}
+                <span class="avatar-initial">{{ user.name[:1].upper() if user.name else user.email[:1].upper() }}</span>
+                {% endif %}
+            </div>
+            <div class="profile-name">{{ user.name or user.email.split('@')[0] }}</div>
+            <div class="profile-email">{{ user.email }}</div>
+        </div>
+
+        <!-- Navigation Section -->
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li><a href="/resume" class="nav-item">
+                    <span>Optimize</span>
+                </a></li>
+                <li><a href="/resume/history" class="nav-item">
+                    <span>History</span>
+                </a></li>
+                <li><a href="/analytics" class="nav-item active">
+                    <span>Analytics</span>
+                </a></li>
+                <li><a href="/resume/profile" class="nav-item">
+                    <span>Profile</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Settings Section -->
+        <nav class="sidebar-settings">
+            <ul class="settings-list">
+                <li><form action="/auth/logout" method="POST" style="display: contents;">
+                    <button type="submit" class="settings-item">
+                        <span>Logout</span>
+                    </button>
+                </form></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-container">
+        <div class="content-header">
+            <h1>Analytics Dashboard</h1>
+            <p class="tagline">Insights from your resume optimization history</p>
+        </div>
+
+        <main class="main-content">
+            <div id="loading" class="loading-state">
+                Loading analytics...
+            </div>
+            
+            <div id="dashboard" style="display: none;">
+                <!-- Overview Cards -->
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <div class="card-icon">Total</div>
+                        <div class="card-value" id="total-optimizations">0</div>
+                        <div class="card-label">Total Optimizations</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">Recent</div>
+                        <div class="card-value" id="recent-optimizations">0</div>
+                        <div class="card-label">Last 30 Days</div>
+                    </div>
+                    <div class="overview-card success">
+                        <div class="card-icon">Score</div>
+                        <div class="card-value" id="avg-score">-</div>
+                        <div class="card-label">Avg Match Score</div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <!-- Activity Trend -->
+                    <div class="chart-card">
+                        <h3>Optimization Activity (Last 7 Days)</h3>
+                        <div class="trend-chart" id="trend-chart">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Top Companies -->
+                    <div class="chart-card">
+                        <h3>Top Companies Applied To</h3>
+                        <div class="data-list" id="company-list">
+                            <div class="empty-state">No data yet</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <!-- Top Roles -->
+                    <div class="chart-card">
+                        <h3>Top Job Roles Optimized For</h3>
+                        <div class="data-list" id="roles-list">
+                            <div class="empty-state">No data yet</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tips -->
+                    <div class="chart-card">
+                        <h3>Tips</h3>
+                        <div class="empty-state">
+                            <p>Optimize more resumes to see detailed insights about:</p>
+                            <ul class="tips-list">
+                                <li>Most requested skills in your target roles</li>
+                                <li>Common keywords in job descriptions</li>
+                                <li>Your optimization patterns over time</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Keywords Analysis -->
+                <div class="keywords-section">
+                    <h2>Common Keywords in Job Descriptions</h2>
+                    <div class="keywords-grid" id="keywords-grid">
+                        <div class="chart-card">
+                            <p style="color: #64748b;">Optimize more resumes to see keyword trends</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Made for job seekers</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+        
+        async function loadDashboard() {
+            try {
+                const [dashboardRes, keywordsRes] = await Promise.all([
+                    fetch('/analytics/api/dashboard'),
+                    fetch('/analytics/api/keyword-analysis')
+                ]);
+                
+                const dashboard = await dashboardRes.json();
+                const keywords = await keywordsRes.json();
+                
+                renderDashboard(dashboard, keywords);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('loading').textContent = 'Error loading analytics';
+            }
+        }
+        
+        function renderDashboard(data, keywords) {
+            // Overview cards
+            document.getElementById('total-optimizations').textContent = data.overview.total_optimizations;
+            document.getElementById('recent-optimizations').textContent = data.overview.recent_30_days;
+            document.getElementById('avg-score').textContent = data.overview.avg_match_score > 0 
+                ? data.overview.avg_match_score + '%' 
+                : '-';
+            
+            // Trend chart
+            renderTrendChart(data.optimization_trend);
+            
+            // Top companies
+            renderDataList('company-list', data.top_companies, 'name');
+            
+            // Top roles
+            renderDataList('roles-list', data.top_roles, 'title');
+            
+            // Keywords
+            renderKeywords(keywords.keyword_analysis);
+        }
+        
+        function renderTrendChart(trendData) {
+            const container = document.getElementById('trend-chart');
+            const maxCount = Math.max(...trendData.map(d => d.count), 1);
+            
+            container.innerHTML = trendData.map(day => {
+                const height = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
+                return `
+                    <div class="trend-bar">
+                        <span class="trend-count">${day.count}</span>
+                        <div class="trend-fill" style="height: ${Math.max(height, 4)}px"></div>
+                        <span class="trend-label">${day.date}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderDataList(containerId, items, nameKey) {
+            const container = document.getElementById(containerId);
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = '<div class="empty-state">No data yet - optimize some resumes!</div>';
+                return;
+            }
+            
+            container.innerHTML = items.map(item => `
+                <div class="data-item">
+                    <span class="data-name">${item[nameKey]}</span>
+                    <span class="data-count">${item.count} optimization${item.count > 1 ? 's' : ''}</span>
+                </div>
+            `).join('');
+        }
+        
+        function renderKeywords(keywordData) {
+            const container = document.getElementById('keywords-grid');
+            
+            if (!keywordData || Object.keys(keywordData).length === 0) {
+                container.innerHTML = '<div class="chart-card"><p style="color: #64748b;">Optimize more resumes to see keyword trends</p></div>';
+                return;
+            }
+            
+            container.innerHTML = Object.entries(keywordData).map(([category, keywords]) => `
+                <div class="keyword-card">
+                    <h4>${category}</h4>
+                    <div class="keyword-list">
+                        ${keywords.slice(0, 8).map(kw => `
+                            <div class="keyword-item">
+                                <span>${kw.keyword}</span>
+                                <span class="count">${kw.count}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load profile picture from localStorage
+        function loadProfilePicture() {
+            const savedPicture = localStorage.getItem('profilePicture');
+            if (savedPicture) {
+                const avatar = document.querySelector('.profile-avatar');
+                const initial = avatar.querySelector('.avatar-initial');
+                if (initial) initial.style.display = 'none';
+                
+                // Remove existing image if any
+                const existingImg = avatar.querySelector('.avatar-image');
+                if (existingImg) existingImg.remove();
+                
+                const img = document.createElement('img');
+                img.src = savedPicture;
+                img.alt = 'Profile';
+                img.className = 'avatar-image';
+                avatar.insertBefore(img, avatar.firstChild);
+            }
+        }
+        loadProfilePicture();
+    </script>
+</body>
+</html>

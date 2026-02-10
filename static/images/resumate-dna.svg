@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- DNA Helix style - matching genetic code -->
+  <defs>
+    <linearGradient id="dna1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="dna2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#14b8a6"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Left helix strand (Resume) -->
+  <path d="M50 20 Q80 50 50 80 Q20 110 50 140 Q80 170 50 200" 
+        fill="none" stroke="url(#dna1)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Right helix strand (Job) -->
+  <path d="M150 0 Q120 30 150 60 Q180 90 150 120 Q120 150 150 180" 
+        fill="none" stroke="url(#dna2)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Connecting rungs with content -->
+  <g fill="none" stroke-width="3">
+    <!-- Rung 1 -->
+    <line x1="58" y1="35" x2="142" y2="45" stroke="#e5e7eb"/>
+    <rect x="75" y="32" width="50" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    
+    <!-- Rung 2 -->
+    <line x1="42" y1="75" x2="158" y2="65" stroke="#e5e7eb"/>
+    <rect x="80" y="62" width="40" height="8" rx="4" fill="#14b8a6" opacity="0.7"/>
+    
+    <!-- Rung 3 - Highlighted match -->
+    <line x1="35" y1="110" x2="165" y2="100" stroke="#fbbf24" stroke-width="4"/>
+    <rect x="70" y="97" width="60" height="12" rx="6" fill="#fbbf24"/>
+    <text x="100" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white" font-weight="bold">MATCH</text>
+    
+    <!-- Rung 4 -->
+    <line x1="42" y1="145" x2="158" y2="135" stroke="#e5e7eb"/>
+    <rect x="75" y="133" width="45" height="8" rx="4" fill="#6366f1" opacity="0.7"/>
+    
+    <!-- Rung 5 -->
+    <line x1="58" y1="175" x2="142" y2="165" stroke="#e5e7eb"/>
+    <rect x="82" y="163" width="35" height="8" rx="4" fill="#14b8a6" opacity="0.7"/>
+  </g>
+  
+  <!-- Nodes on strands -->
+  <circle cx="50" cy="20" r="6" fill="#6366f1"/>
+  <circle cx="50" cy="80" r="6" fill="#6366f1"/>
+  <circle cx="50" cy="140" r="6" fill="#6366f1"/>
+  <circle cx="150" cy="60" r="6" fill="#14b8a6"/>
+  <circle cx="150" cy="120" r="6" fill="#14b8a6"/>
+  <circle cx="150" cy="180" r="6" fill="#14b8a6"/>
+</svg>

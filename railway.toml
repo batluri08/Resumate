@@ -1,0 +1,19 @@
+# Railway.app Configuration
+# Documentation: https://docs.railway.app
+
+[build]
+builder = "dockerfile"
+
+[deploy]
+restartPolicyType = "always"
+restartPolicyMaxRetries = 5
+
+# Environment variables will be set via Railway dashboard
+# Required:
+# - DATABASE_URL (auto-provisioned by Railway PostgreSQL)
+# - OPENAI_API_KEY (your OpenAI API key)
+# - GOOGLE_CLIENT_ID
+# - GOOGLE_CLIENT_SECRET
+# - SESSION_SECRET_KEY (generate a secure random string)
+# - ENVIRONMENT=production
+# - LOG_LEVEL=INFO

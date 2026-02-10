@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Resumate</title>
+    <link rel="icon" type="image/svg+xml" href="/static/images/resumate-dna.svg">
+    <link rel="stylesheet" href="/static/css/style.css?v=17">
+    <style>
+                /* Center main profile content */
+                .main-profile-container {
+                    max-width: 1400px;
+                    margin: 2.5rem auto 0 auto;
+                    padding: 0 4rem;
+                }
+
+                /* Resume Card UI Improvements */
+                .resume-grid {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1.5rem;
+                    margin-top: 1.5rem;
+                }
+                .resume-card {
+                    background: #fff;
+                    border: 1.5px solid #e2e8f0;
+                    border-radius: 14px;
+                    box-shadow: 0 4px 18px 0 rgba(99,102,241,0.07);
+                    padding: 1.25rem 1.5rem 1.25rem 1.25rem;
+                    min-width: 260px;
+                    max-width: 320px;
+                    flex: 1 1 260px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    position: relative;
+                    transition: box-shadow 0.2s, transform 0.2s;
+                }
+                .resume-card.active {
+                    border: 2px solid #6366f1;
+                    box-shadow: 0 6px 24px 0 rgba(99,102,241,0.13);
+                }
+                .resume-card:hover {
+                    box-shadow: 0 8px 32px 0 rgba(99,102,241,0.18);
+                    transform: translateY(-2px) scale(1.02);
+                }
+                .resume-card-icon {
+                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                    border-radius: 8px;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 0.75rem;
+                }
+                .resume-card-name {
+                    font-weight: 600;
+                    font-size: 1.08rem;
+                    color: #1e293b;
+                    margin-bottom: 0.25rem;
+                    word-break: break-all;
+                }
+                .resume-card-meta {
+                    color: #64748b;
+                    font-size: 0.92rem;
+                    margin-bottom: 0.7rem;
+                }
+                .resume-card-actions {
+                    display: flex;
+                    gap: 0.7rem;
+                    margin-top: auto;
+                }
+                .resume-action-btn {
+                    background: #f1f5f9;
+                    color: #6366f1;
+                    border: none;
+                    border-radius: 7px;
+                    padding: 0.45rem 1.1rem;
+                    font-size: 0.97rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background 0.18s, color 0.18s;
+                }
+                .resume-action-btn.preview {
+                    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                    color: #fff;
+                }
+                .resume-action-btn.preview:hover {
+                    background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+                }
+                .resume-action-btn.delete {
+                    background: #fef2f2;
+                    color: #ef4444;
+                }
+                .resume-action-btn.delete:hover {
+                    background: #fee2e2;
+                    color: #b91c1c;
+                }
+                .add-resume-card {
+                    background: #f8fafc;
+                    border: 2px dashed #c7d2fe;
+                    border-radius: 14px;
+                    min-width: 260px;
+                    max-width: 320px;
+                    flex: 1 1 260px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    padding: 1.5rem 0;
+                    transition: border 0.2s, background 0.2s;
+                }
+                .add-resume-card:hover {
+                    background: #e0e7ff;
+                    border-color: #6366f1;
+                }
+                .add-icon {
+                    font-size: 2.2rem;
+                    color: #6366f1;
+                    margin-bottom: 0.3rem;
+                }
+                .resume-empty-msg {
+                    width: 100%;
+                    text-align: center;
+                    color: #64748b;
+                    font-size: 1.05rem;
+                    margin: 2.5rem 0;
+                }
+        /* Profile Page Styles */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 900px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Section Cards */
+        .section-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-card.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .section-icon.purple { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+        .section-icon.teal { background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%); }
+        .section-icon.amber { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); }
+        .section-icon.rose { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); }
+        
+        .section-card h3 {
+            font-size: 1.1rem;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .section-hint {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        
+        /* Resume Cards Section */
+        .resume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .resume-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resume-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+        }
+        
+        .resume-card.active {
+            border-color: #6366f1;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        }
+        
+        .resume-card.active::after {
+            content: 'Default';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #6366f1;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .resume-card-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .resume-card-name {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .resume-card-meta {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        .resume-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .resume-card:hover .resume-card-actions {
+            opacity: 1;
+        }
+        
+        .resume-action-btn {
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .resume-action-btn.preview {
+            background: #6366f1;
+            color: white;
+        }
+        
+        .resume-action-btn.preview:hover {
+            background: #4f46e5;
+        }
+        
+        .resume-action-btn.delete {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+        
+        .resume-action-btn.delete:hover {
+            background: #fecaca;
+        }
+        
+        /* Add Resume Card */
+        .add-resume-card {
+            background: white;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 140px;
+            text-align: center;
+        }
+        
+        .add-resume-card:hover {
+            border-color: #6366f1;
+            background: #fafafa;
+        }
+        
+        .add-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .add-resume-card span {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            color: #1e293b;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        /* Tags Input */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            min-height: 42px;
+            cursor: text;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .tags-container:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.65rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag-remove {
+            cursor: pointer;
+            opacity: 0.8;
+            font-size: 1rem;
+            line-height: 1;
+        }
+        
+        .tag-remove:hover {
+            opacity: 1;
+        }
+        
+        .tag-input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            min-width: 100px;
+            padding: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+        
+        .toggle-label {
+            color: #334155;
+            font-size: 0.9rem;
+        }
+        
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e2e8f0;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .toggle input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        /* Save Button */
+        .save-section {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary {
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        /* Preview Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #1e293b;
+        }
+        
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: #f1f5f9;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: #e2e8f0;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .preview-container {
+            background: #f8fafc;
+            border-radius: 8px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-container img {
+            max-width: 100%;
+            max-height: 500px;
+        }
+        
+        .preview-placeholder {
+            color: #94a3b8;
+            text-align: center;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            z-index: 3000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Add Resume Modal */
+        .add-modal-body {
+            padding: 1.5rem;
+        }
+        
+        .upload-dropzone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-dropzone:hover,
+        .upload-dropzone.dragover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .upload-dropzone-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-dropzone p {
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+        
+        .upload-dropzone .hint {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="/resume" class="sidebar-brand">
+                <span class="brand-wordmark">Resumate</span>
+            </a>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar" id="profile-avatar-container" style="cursor: pointer;" title="Click to upload profile picture">
+                {% if user.profile_picture %}
+                <img src="{{ user.profile_picture }}" alt="Profile" class="avatar-image">
+                {% else %}
+                <span class="avatar-initial">{{ user.name[:1].upper() if user.name else user.email[:1].upper() }}</span>
+                {% endif %}
+                <input type="file" id="profile-picture-input" accept="image/*" hidden>
+            </div>
+            <div class="profile-name">{{ user.name or user.email.split('@')[0] }}</div>
+            <div class="profile-email">{{ user.email }}</div>
+        </div>
+
+        <!-- Navigation Section -->
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li><a href="/resume" class="nav-item">
+                    <span>Optimize</span>
+                </a></li>
+                <li><a href="/resume/history" class="nav-item">
+                    <span>History</span>
+                </a></li>
+                <li><a href="/analytics" class="nav-item">
+                    <span>Analytics</span>
+                </a></li>
+                <li><a href="/resume/profile" class="nav-item active">
+                    <span>Profile</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Settings Section -->
+        <nav class="sidebar-settings">
+            <ul class="settings-list">
+                <li><form action="/auth/logout" method="POST" style="display: contents;">
+                    <button type="submit" class="settings-item">
+                        <span>Logout</span>
+                    </button>
+                </form></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-container">
+        <div class="content-header">
+            <h1>Your Profile</h1>
+            <p class="tagline">Manage your resumes and optimization preferences</p>
+        </div>
+
+        <main class="main-content">
+            <!-- Resumes Section -->
+            <div class="section-card full-width">
+                <div class="section-header">
+                    <div class="section-title">
+                        <div class="section-icon purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Your Resumes</h3>
+                            <p class="section-hint">Click to set as default, manage your different resume versions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resume-grid" id="resume-grid">
+                    <!-- Resume cards will be loaded dynamically -->
+                    <div class="add-resume-card" id="add-resume-btn">
+                        <div class="add-icon">+</div>
+                        <span>Add Resume</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <!-- Career Goals -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <div class="section-icon teal">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="6"></circle>
+                                    <circle cx="12" cy="12" r="2"></circle>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Career Goals</h3>
+                                <p class="section-hint">Help us tailor your resumes</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Target Roles</label>
+                        <input type="text" id="target-roles" placeholder="e.g., Software Engineer, Product Manager">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Experience Level</label>
+                        <select id="experience-level">
+                            <option value="">Select level...</option>
+                            <option value="entry">Entry Level (0-2 years)</option>
+                            <option value="mid">Mid Level (3-5 years)</option>
+                            <option value="senior">Senior (6-10 years)</option>
+                            <option value="lead">Lead/Principal (10+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Target Industries</label>
+                        <input type="text" id="target-industries" placeholder="e.g., Tech, Finance, Healthcare">
+                    </div>
+                </div>
+
+                <!-- Key Skills -->
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <div class="section-icon amber">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Key Skills</h3>
+                                <p class="section-hint">Skills to always highlight</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Must-Have Skills (press Enter to add)</label>
+                        <div class="tags-container" id="skills-container">
+                            <input type="text" class="tag-input" id="skill-input" placeholder="Type a skill...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optimization Preferences -->
+                <div class="section-card full-width">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <div class="section-icon rose">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Optimization Preferences</h3>
+                                <p class="section-hint">How should we optimize your resume?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="toggle-group">
+                        <span class="toggle-label">Conservative changes (preserve original wording)</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="pref-conservative" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="toggle-group">
+                        <span class="toggle-label">Add ATS-friendly keywords from job description</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="pref-keywords" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="toggle-group">
+                        <span class="toggle-label">Suggest adding metrics/numbers where missing</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="pref-metrics">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="save-section">
+                <button type="button" id="save-profile-btn" class="btn-primary">
+                    Save Preferences
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="preview-title">Resume Preview</h3>
+                <button class="modal-close" id="close-preview">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-container" id="preview-container">
+                    <div class="preview-placeholder">
+                        <p>Loading preview...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Resume Modal -->
+    <div class="modal-overlay" id="add-resume-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Resume</h3>
+                <button class="modal-close" id="close-add-modal">&times;</button>
+            </div>
+            <div class="add-modal-body">
+                <div class="form-group">
+                    <label>Resume Name</label>
+                    <input type="text" id="new-resume-name" placeholder="e.g., Software Engineer Resume, Marketing Resume">
+                </div>
+                
+                <div class="upload-dropzone" id="upload-dropzone">
+                    <input type="file" id="new-resume-file" accept=".pdf,.docx" hidden>
+                    <div class="upload-dropzone-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <p><strong>Drop your resume here</strong></p>
+                    <p>or click to browse</p>
+                    <p class="hint">PDF or DOCX (max 10MB)</p>
+                </div>
+                
+                <button type="button" id="upload-resume-btn" class="btn-primary" style="width: 100%;" disabled>
+                    Upload Resume
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Saved!</div>
+
+    <script>
+        // State
+        let resumes = [];
+        let skills = [];
+        let selectedFile = null;
+        
+        // DOM Elements
+        const resumeGrid = document.getElementById('resume-grid');
+        const addResumeBtn = document.getElementById('add-resume-btn');
+        const previewModal = document.getElementById('preview-modal');
+        const addResumeModal = document.getElementById('add-resume-modal');
+        const closePreview = document.getElementById('close-preview');
+        const closeAddModal = document.getElementById('close-add-modal');
+        const uploadDropzone = document.getElementById('upload-dropzone');
+        const newResumeFile = document.getElementById('new-resume-file');
+        const newResumeName = document.getElementById('new-resume-name');
+        const uploadResumeBtn = document.getElementById('upload-resume-btn');
+        const skillsContainer = document.getElementById('skills-container');
+        const skillInput = document.getElementById('skill-input');
+        const saveProfileBtn = document.getElementById('save-profile-btn');
+        const toast = document.getElementById('toast');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadResumes();
+            loadProfile();
+            setupEventListeners();
+            setupProfilePictureUpload();
+            loadProfilePicture();
+        });
+        
+        // Load profile picture from localStorage
+        function loadProfilePicture() {
+            const savedPicture = localStorage.getItem('profilePicture');
+            if (savedPicture) {
+                const avatar = document.querySelector('.profile-avatar');
+                const initial = avatar.querySelector('.avatar-initial');
+                if (initial) initial.style.display = 'none';
+                
+                const existingImg = avatar.querySelector('.avatar-image');
+                if (existingImg) existingImg.remove();
+                
+                const img = document.createElement('img');
+                img.src = savedPicture;
+                img.alt = 'Profile';
+                img.className = 'avatar-image';
+                avatar.insertBefore(img, avatar.firstChild);
+            }
+        }
+        
+        // Setup profile picture upload
+        function setupProfilePictureUpload() {
+            const avatarContainer = document.getElementById('profile-avatar-container');
+            const profilePictureInput = document.getElementById('profile-picture-input');
+            
+            if (!avatarContainer || !profilePictureInput) return;
+            
+            avatarContainer.addEventListener('click', () => {
+                profilePictureInput.click();
+            });
+            
+            profilePictureInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    if (!file.type.startsWith('image/')) {
+                        showToast('Please select an image file.');
+                        return;
+                    }
+                    if (file.size > 2 * 1024 * 1024) {
+                        showToast('Image must be less than 2MB.');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        localStorage.setItem('profilePicture', event.target.result);
+                        loadProfilePicture();
+                        showToast('Profile picture updated!');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        // Load resumes from API
+        async function loadResumes() {
+            try {
+                const response = await fetch('/resume/api/resumes');
+                if (response.ok) {
+                    resumes = await response.json();
+                    renderResumes();
+                }
+            } catch (error) {
+                console.error('Error loading resumes:', error);
+            }
+        }
+        
+        // Render resume cards
+        function renderResumes() {
+            resumeGrid.innerHTML = '';
+            if (!resumes || resumes.length === 0) {
+                const emptyMsg = document.createElement('div');
+                emptyMsg.className = 'resume-empty-msg';
+                emptyMsg.innerHTML = '<p>No resumes found. Click "Add Resume" to upload your first resume.</p>';
+                resumeGrid.appendChild(emptyMsg);
+            } else {
+                resumes.forEach(resume => {
+                    const card = document.createElement('div');
+                    card.className = `resume-card ${resume.is_default ? 'active' : ''}`;
+                    card.innerHTML = `
+                        <div class="resume-card-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="resume-card-name">${resume.name || resume.original_filename}</div>
+                        <div class="resume-card-meta">${resume.file_type ? resume.file_type.toUpperCase() : ''} - ${resume.uploaded_at ? formatDate(resume.uploaded_at) : ''}</div>
+                        <div class="resume-card-actions">
+                            <button class="resume-action-btn preview" onclick="previewResume(${resume.id}, '${(resume.name || resume.original_filename).replace(/'/g, "\\'")}')">Preview</button>
+                            <button class="resume-action-btn delete" onclick="deleteResume(${resume.id}, event)">Delete</button>
+                        </div>
+                    `;
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.classList.contains('resume-action-btn')) {
+                            setDefaultResume(resume.id);
+                        }
+                    });
+                    resumeGrid.appendChild(card);
+                });
+            }
+            // Add Resume button logic
+            if (resumes.length < 3) {
+                const newAddBtn = document.createElement('div');
+                newAddBtn.className = 'add-resume-card';
+                newAddBtn.id = 'add-resume-btn';
+                newAddBtn.innerHTML = `
+                    <div class="add-icon">+</div>
+                    <span>You can upload up to three different resumes</span>
+                `;
+                resumeGrid.appendChild(newAddBtn);
+            }
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        }
+        
+        // Set default resume
+        async function setDefaultResume(id) {
+            try {
+                const response = await fetch(`/set-default-resume/${id}`, { method: 'POST' });
+                if (response.ok) {
+                    await loadResumes();
+                    showToast('Default resume updated!');
+                }
+            } catch (error) {
+                console.error('Error setting default:', error);
+            }
+        }
+        
+        // Preview resume
+        async function previewResume(id, name) {
+            document.getElementById('preview-title').textContent = name;
+            document.getElementById('preview-container').innerHTML = '<div class="preview-placeholder"><p>Loading preview...</p></div>';
+            previewModal.classList.add('active');
+            try {
+                const resume = resumes.find(r => r.id === id);
+                if (resume && resume.preview_image) {
+                    let src = resume.preview_image;
+                    // If base64, prepend data URI
+                    if (src.startsWith('iVBORw0KGgo')) {
+                        src = 'data:image/png;base64,' + src;
+                    }
+                    document.getElementById('preview-container').innerHTML = `<img src="${src}" alt="Resume Preview">`;
+                } else {
+                    document.getElementById('preview-container').innerHTML = '<div class="preview-placeholder"><p>Preview not available for this file type</p></div>';
+                }
+            } catch (error) {
+                document.getElementById('preview-container').innerHTML = '<div class="preview-placeholder"><p>Error loading preview</p></div>';
+            }
+        }
+        
+        // Delete resume
+        async function deleteResume(id, event) {
+            event.stopPropagation();
+            if (!confirm('Are you sure you want to delete this resume?')) return;
+            try {
+                const response = await fetch(`/resume/api/resumes/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    await loadResumes();
+                    showToast('Resume deleted!');
+                } else {
+                    showToast('Failed to delete resume', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting resume:', error);
+                showToast('Error deleting resume', 'error');
+            }
+        }
+        
+        // Open add resume modal
+        function openAddModal() {
+            addResumeModal.classList.add('active');
+            newResumeName.value = '';
+            selectedFile = null;
+            uploadDropzone.innerHTML = `
+                <input type="file" id="new-resume-file" accept=".pdf,.docx" hidden>
+                <div class="upload-dropzone-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                </div>
+                <p><strong>Drop your resume here</strong></p>
+                <p>or click to browse</p>
+                <p class="hint">PDF or DOCX (max 10MB)</p>
+            `;
+            uploadResumeBtn.disabled = true;
+            
+            // Re-attach file input listener
+            document.getElementById('new-resume-file').addEventListener('change', handleFileSelect);
+        }
+        
+        // Handle file selection
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                uploadDropzone.innerHTML = `
+                    <input type="file" id="new-resume-file" accept=".pdf,.docx" hidden>
+                    <div class="upload-dropzone-icon" style="color: #22c55e;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <p><strong>${file.name}</strong></p>
+                    <p class="hint">Click to change</p>
+                `;
+                document.getElementById('new-resume-file').addEventListener('change', handleFileSelect);
+                uploadResumeBtn.disabled = false;
+                
+                // Auto-fill name from filename
+                if (!newResumeName.value) {
+                    newResumeName.value = file.name.replace(/\.(pdf|docx)$/i, '');
+                }
+            }
+        }
+        
+        // Upload new resume
+        async function uploadNewResume() {
+            if (!selectedFile) return;
+            
+            uploadResumeBtn.disabled = true;
+            uploadResumeBtn.textContent = 'Uploading...';
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            if (newResumeName.value) {
+                formData.append('resume_name', newResumeName.value);
+            }
+            
+            try {
+                const response = await fetch('/resume/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    addResumeModal.classList.remove('active');
+                    await loadResumes();
+                    showToast('Resume uploaded successfully!');
+                } else {
+                    const data = await response.json();
+                    showToast(data.detail || 'Upload failed');
+                }
+            } catch (error) {
+                showToast('Upload failed');
+            }
+            
+            uploadResumeBtn.disabled = false;
+            uploadResumeBtn.textContent = 'Upload Resume';
+        }
+        
+        // Skills tag management
+        function addSkill(skill) {
+            skill = skill.trim();
+            if (skill && !skills.includes(skill)) {
+                skills.push(skill);
+                renderSkills();
+            }
+        }
+        
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+            renderSkills();
+        }
+        
+        function renderSkills() {
+            const input = skillsContainer.querySelector('.tag-input');
+            skillsContainer.innerHTML = '';
+            
+            skills.forEach(skill => {
+                const tag = document.createElement('span');
+                tag.className = 'tag';
+                tag.innerHTML = `${skill}<span class="tag-remove" onclick="removeSkill('${skill}')">&times;</span>`;
+                skillsContainer.appendChild(tag);
+            });
+            
+            skillsContainer.appendChild(input || createSkillInput());
+        }
+        
+        function createSkillInput() {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'tag-input';
+            input.id = 'skill-input';
+            input.placeholder = skills.length ? '' : 'Type a skill...';
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkill(input.value);
+                    input.value = '';
+                }
+            });
+            
+            return input;
+        }
+        
+        // Load saved profile
+        function loadProfile() {
+            const saved = localStorage.getItem('resumateProfile');
+            if (saved) {
+                const profile = JSON.parse(saved);
+                document.getElementById('target-roles').value = profile.targetRoles || '';
+                document.getElementById('experience-level').value = profile.experienceLevel || '';
+                document.getElementById('target-industries').value = profile.targetIndustries || '';
+                document.getElementById('pref-conservative').checked = profile.prefConservative !== false;
+                document.getElementById('pref-keywords').checked = profile.prefKeywords !== false;
+                document.getElementById('pref-metrics').checked = profile.prefMetrics || false;
+                skills = profile.skills || [];
+                renderSkills();
+            }
+        }
+        
+        // Save profile
+        function saveProfile() {
+            const profile = {
+                targetRoles: document.getElementById('target-roles').value,
+                experienceLevel: document.getElementById('experience-level').value,
+                targetIndustries: document.getElementById('target-industries').value,
+                skills: skills,
+                prefConservative: document.getElementById('pref-conservative').checked,
+                prefKeywords: document.getElementById('pref-keywords').checked,
+                prefMetrics: document.getElementById('pref-metrics').checked
+            };
+            
+            localStorage.setItem('resumateProfile', JSON.stringify(profile));
+            showToast('Preferences saved!');
+        }
+        
+        // Show toast
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal close buttons
+            closePreview.addEventListener('click', () => previewModal.classList.remove('active'));
+            closeAddModal.addEventListener('click', () => addResumeModal.classList.remove('active'));
+            
+            // Close modals on overlay click
+            previewModal.addEventListener('click', (e) => {
+                if (e.target === previewModal) previewModal.classList.remove('active');
+            });
+            addResumeModal.addEventListener('click', (e) => {
+                if (e.target === addResumeModal) addResumeModal.classList.remove('active');
+            });
+            
+            // Upload dropzone
+            uploadDropzone.addEventListener('click', () => {
+                document.getElementById('new-resume-file').click();
+            });
+            
+            uploadDropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.add('dragover');
+            });
+            
+            uploadDropzone.addEventListener('dragleave', () => {
+                uploadDropzone.classList.remove('dragover');
+            });
+            
+            uploadDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file && (file.type === 'application/pdf' || file.name.endsWith('.docx'))) {
+                    selectedFile = file;
+                    handleFileSelect({ target: { files: [file] } });
+                }
+            });
+            
+            // Upload button
+            uploadResumeBtn.addEventListener('click', uploadNewResume);
+            
+            // Save button
+            saveProfileBtn.addEventListener('click', saveProfile);
+            
+            // Skill input
+            skillInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkill(skillInput.value);
+                    skillInput.value = '';
+                }
+            });
+            
+            // Click on skills container to focus input
+            skillsContainer.addEventListener('click', () => {
+                document.getElementById('skill-input')?.focus();
+            });
+            
+            // Add resume button - use event delegation on the grid
+            resumeGrid.addEventListener('click', (e) => {
+                const addCard = e.target.closest('.add-resume-card');
+                if (addCard) {
+                    openAddModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
