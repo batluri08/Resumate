@@ -13,12 +13,27 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# Database URL - PostgreSQL (read from environment variable or default)
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:password@localhost:5432/restless_resume")
+# Database URL - PostgreSQL (read from environment variable)
+# For Railway: DATABASE_URL is auto-injected by the PostgreSQL plugin
+# For local: Use .env or .env.local files
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    # Only use localhost default for local development
+    if os.getenv("ENVIRONMENT") == "production":
+        raise ValueError(
+            "DATABASE_URL environment variable is required for production deployment. "
+            "Please add a PostgreSQL plugin to your Railway project."
+        )
+    DATABASE_URL = "postgresql+psycopg2://postgres:Bhumi@localhost:5432/restless_resume"
 
 # Create engine
 engine = create_engine(
-    DATABASE_URL
+    DATABASE_URL,
+    pool_size=10,
+    max_overflow=20,
+    pool_pre_ping=True,  # Test connections before using them
+    echo=os.getenv("ENVIRONMENT") != "production"  # SQL logging in dev only
 )
 
 # Session factory
