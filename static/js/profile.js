@@ -44,11 +44,30 @@ const prefMetricsCheck = document.getElementById('pref-metrics');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    setupLogoutHandler();
     loadProfile();
     setupUploadArea();
     setupFormHandlers();
     setupProfilePictureUpload();
 });
+
+/**
+ * Setup logout handler to clear localStorage and prevent profile picture sharing
+ * This prevents different users from seeing each other's profile pictures when logged in on the same browser
+ */
+function setupLogoutHandler() {
+    const logoutForms = document.querySelectorAll('form[action="/auth/logout"]');
+    logoutForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            // Clear all user-specific localStorage before logout
+            localStorage.removeItem('profilePicture');
+            localStorage.removeItem('userProfile');
+            localStorage.removeItem('resumeProfile');
+            localStorage.removeItem('resumateProfile');
+            // Allow form submission to proceed
+        });
+    });
+}
 
 // Setup profile picture upload
 function setupProfilePictureUpload() {
