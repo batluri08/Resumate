@@ -5,6 +5,7 @@ AI Optimizer Service - Uses OpenAI to optimize resume content for job descriptio
 import os
 import json
 import re
+import httpx
 from openai import AsyncOpenAI
 from typing import Tuple, List, Dict
 
@@ -19,7 +20,10 @@ class AIOptimizer:
                 "OpenAI API key not configured. "
                 "Please set OPENAI_API_KEY in your .env file."
             )
-        self.client = AsyncOpenAI(api_key=api_key)
+        
+        # Create AsyncClient explicitly to avoid httpx compatibility issues
+        http_client = httpx.AsyncClient()
+        self.client = AsyncOpenAI(api_key=api_key, http_client=http_client)
         
         # Load OpenAI configuration from environment variables
         self.model = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
