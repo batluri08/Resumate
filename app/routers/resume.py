@@ -303,8 +303,20 @@ async def select_resume(
     # Load the resume into memory session
     session_id = str(uuid.uuid4())
     try:
-        parser = DocumentParser()
-        content, structure = parser.parse(resume.file_path)
+        # Try to parse from stored content first (works in cloud environments)
+        # If content is stored, use it; otherwise try to read from file
+        if resume.content:
+            content = resume.content
+            structure = {
+                "type": resume.file_ext.lower().replace(".", ""),
+                "paragraphs": [],
+                "tables": [],
+                "sections": []
+            }
+        else:
+            # Fallback: parse from file path (for local development)
+            parser = DocumentParser()
+            content, structure = parser.parse(resume.file_path)
         
         resume_storage[session_id] = {
             "resume_id": resume.id,
@@ -329,6 +341,7 @@ async def select_resume(
             }
         })
     except Exception as e:
+        logger.error(f"Error loading resume {resume_id}: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error loading resume: {str(e)}")
 
 
