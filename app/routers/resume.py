@@ -743,17 +743,52 @@ async def optimize_resume(
         logger.debug(f"Original content length: {len(resume_data['content'])}")
         logger.debug(f"Number of changes from AI: {len(changes)}")
         
-        # Write the optimized content back to a new file
-        writer = DocumentWriter()
-        output_path = f"uploads/{session_id}_optimized{resume_data['file_ext']}"
-        
-        actual_output_path = writer.write(
-            original_path=resume_data["file_path"],
-            output_path=output_path,
-            changes=changes,
-            file_type=resume_data["file_ext"]
-        )
-        logger.debug(f"Optimized document written: path={actual_output_path}")
+        # Reconstruct the original file from database content (for Railway compatibility with ephemeral filesystem)
+        import tempfile
+        import shutil
+        temp_dir = tempfile.mkdtemp()
+        actual_output_path = None
+        try:
+            temp_original_path = os.path.join(temp_dir, f"resume_original{resume_data['file_ext']}")
+            
+            # Write content to temporary file for processing
+            if resume_data['file_ext'] == '.pdf':
+                # For PDF, we need to write bytes
+                import base64
+                if isinstance(resume_data['content'], str) and resume_data['content'].startswith('data:'):
+                    # If it's base64 encoded
+                    base64_data = resume_data['content'].split(',')[1]
+                    with open(temp_original_path, 'wb') as f:
+                        f.write(base64.b64decode(base64_data))
+                else:
+                    # Assume it's plain text, write as is
+                    with open(temp_original_path, 'w', encoding='utf-8') as f:
+                        f.write(resume_data['content'])
+            else:
+                # For DOCX, write the content
+                with open(temp_original_path, 'w', encoding='utf-8') as f:
+                    f.write(resume_data['content'])
+            
+            logger.debug(f"Reconstructed resume file: {temp_original_path}")
+            
+            # Write the optimized content back to a new file
+            writer = DocumentWriter()
+            output_path = f"uploads/{session_id}_optimized{resume_data['file_ext']}"
+            
+            actual_output_path = writer.write(
+                original_path=temp_original_path,
+                output_path=output_path,
+                changes=changes,
+                file_type=resume_data['file_ext']
+            )
+            logger.debug(f"Optimized document written: path={actual_output_path}")
+        except Exception as file_err:
+            logger.error(f"Error reconstructing/writing resume file: {str(file_err)}")
+            # Continue without file output (still have the text content)
+            actual_output_path = None
+        finally:
+            # Clean up temporary directory
+            shutil.rmtree(temp_dir, ignore_errors=True)
         
         # Build optimized content for preview by applying changes to text
         optimized_content = resume_data["content"]
