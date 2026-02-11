@@ -97,9 +97,43 @@ async def startup_event():
     try:
         init_db()
         logger.info("✅ Database initialized successfully!")
+        
+        # Apply schema migrations
+        apply_schema_migrations()
+        logger.info("✅ Schema migrations applied successfully!")
     except Exception as e:
         logger.error(f"Failed to initialize database: {e}", exc_info=True)
         raise
+
+def apply_schema_migrations():
+    """Apply pending schema migrations to handle new columns"""
+    from app.database import get_db
+    from sqlalchemy import text
+    
+    db = next(get_db())
+    try:
+        # Check if profile_picture column exists in users table
+        result = db.execute(text("""
+            SELECT EXISTS (
+                SELECT 1 FROM information_schema.columns 
+                WHERE table_name = 'users' AND column_name = 'profile_picture'
+            )
+        """))
+        
+        profile_picture_exists = result.scalar()
+        
+        if not profile_picture_exists:
+            logger.info("Adding missing profile_picture column to users table...")
+            db.execute(text("ALTER TABLE users ADD COLUMN profile_picture TEXT;"))
+            db.commit()
+            logger.info("✅ profile_picture column added successfully!")
+        else:
+            logger.debug("profile_picture column already exists")
+    except Exception as e:
+        logger.warning(f"Schema migration check failed (might already exist): {e}")
+        db.rollback()
+    finally:
+        db.close()
 
 @app.on_event("shutdown")
 async def shutdown_event():
