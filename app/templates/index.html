@@ -41,6 +41,158 @@
         .stat-item:nth-child(2) .stat-value { color: #10b981; }
         .stat-item:nth-child(3) .stat-value { color: #f59e0b; }
         
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+        
+        .modal-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .modal-hint {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            justify-content: flex-end;
+        }
+        
+        .modal-btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        
+        .modal-btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .modal-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .modal-btn-primary:active {
+            transform: translateY(0);
+        }
+        
         .stat-label {
             font-size: 0.85rem;
             color: #64748b;
@@ -952,6 +1104,25 @@ Include:
             <p class="loading-subtext">AI is tailoring your experience to match the job</p>
             <div class="loading-progress">
                 <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Resume Upload Modal -->
+    <div id="resume-upload-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Resume</h2>
+                <button class="modal-close" id="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <label for="resume-name-input" class="modal-label">Resume Name</label>
+                <input type="text" id="resume-name-input" class="modal-input" placeholder="e.g., Software Engineer Resume" maxlength="100">
+                <div class="modal-hint">Give your resume a descriptive name to easily identify it later</div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="modal-cancel-btn">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="modal-confirm-btn">Upload</button>
             </div>
         </div>
     </div>

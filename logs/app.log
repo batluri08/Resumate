@@ -413,3 +413,113 @@ PREFERENCE: Make minimal, conservative changes only.
 2026-02-10 19:23:01 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
 2026-02-10 19:23:01 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
 2026-02-10 19:24:40 - restlessresume.app.main - DEBUG - apply_schema_migrations:131 - profile_picture column already exists
+2026-02-10 19:32:07 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:32:07 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=988f9e58-657c-4889-82ef-6760952a0116, user_id=2
+2026-02-10 19:32:07 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: 988f9e58-657c-4889-82ef-6760952a0116
+2026-02-10 19:32:07 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['988f9e58-657c-4889-82ef-6760952a0116']
+2026-02-10 19:32:07 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=6909
+2026-02-10 19:32:07 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-10 19:32:13 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=8, suggestions_count=9
+2026-02-10 19:32:13 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 6909
+2026-02-10 19:32:13 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 8
+2026-02-10 19:32:13 - restlessresume.app.routers.resume - DEBUG - optimize_resume:756 - Optimized document written: path=uploads/988f9e58-657c-4889-82ef-6760952a0116_optimized.docx
+2026-02-10 19:32:13 - restlessresume.app.routers.resume - DEBUG - optimize_resume:773 - Diff HTML generated
+2026-02-10 19:32:16 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
+2026-02-10 19:32:16 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=6, user_id=2
+2026-02-10 19:32:16 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=988f9e58-657c-4889-82ef-6760952a0116, user_id=2
+2026-02-10 19:32:24 - restlessresume.app.main - DEBUG - apply_schema_migrations:131 - profile_picture column already exists
+2026-02-10 19:32:24 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-10 19:32:30 - restlessresume.app.routers.resume - INFO - download_resume:882 - Resume download requested: session_id=988f9e58-657c-4889-82ef-6760952a0116
+2026-02-10 19:32:30 - restlessresume.app.routers.resume - WARNING - download_resume:885 - Download failed: resume not found, session_id=988f9e58-657c-4889-82ef-6760952a0116
+2026-02-10 19:32:33 - restlessresume.app.routers.resume - INFO - download_resume:882 - Resume download requested: session_id=988f9e58-657c-4889-82ef-6760952a0116
+2026-02-10 19:32:33 - restlessresume.app.routers.resume - WARNING - download_resume:885 - Download failed: resume not found, session_id=988f9e58-657c-4889-82ef-6760952a0116
+2026-02-10 19:33:31 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:36 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:36 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:37 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-10 19:33:40 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:41 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:41 - restlessresume.app.routers.resume - INFO - profile_page:50 - Profile page accessed by user: id=2
+2026-02-10 19:33:41 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:42 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:42 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:43 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-10 19:33:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:51 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:33:51 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=ae22401e-97d0-4e43-88ee-82a6cf613303, user_id=2
+2026-02-10 19:33:51 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: ae22401e-97d0-4e43-88ee-82a6cf613303
+2026-02-10 19:33:51 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['4efcdb15-ef3d-47aa-bc83-90a79092ac10', 'ae22401e-97d0-4e43-88ee-82a6cf613303']
+2026-02-10 19:33:51 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=6909
+2026-02-10 19:33:51 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-10 19:33:56 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=6, suggestions_count=7
+2026-02-10 19:33:56 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 6909
+2026-02-10 19:33:56 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 6
+2026-02-10 19:33:56 - restlessresume.app.routers.resume - DEBUG - optimize_resume:756 - Optimized document written: path=uploads/ae22401e-97d0-4e43-88ee-82a6cf613303_optimized.docx
+2026-02-10 19:33:56 - restlessresume.app.routers.resume - DEBUG - optimize_resume:773 - Diff HTML generated
+2026-02-10 19:33:58 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
+2026-02-10 19:33:58 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=7, user_id=2
+2026-02-10 19:33:58 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=ae22401e-97d0-4e43-88ee-82a6cf613303, user_id=2
+2026-02-10 19:34:03 - restlessresume.app.routers.resume - INFO - download_resume:882 - Resume download requested: session_id=ae22401e-97d0-4e43-88ee-82a6cf613303
+2026-02-10 19:34:03 - restlessresume.app.routers.resume - INFO - download_resume:906 - Resume download successful: session_id=ae22401e-97d0-4e43-88ee-82a6cf613303, filename=Bhumika Atluri - Resume  (1)_optimized.docx
+2026-02-10 19:36:57 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:36:57 - restlessresume.app.routers.resume - INFO - upload_resume:578 - Resume upload initiated: user_id=2, filename=RESUME.docx
+2026-02-10 19:36:57 - restlessresume.app.routers.resume - DEBUG - upload_resume:606 - Resume file saved: path=uploads/resumes/2_4115a526-d9fd-4501-959c-637ad2adabc4.docx
+2026-02-10 19:36:57 - restlessresume.app.routers.resume - DEBUG - upload_resume:611 - Resume content parsed: user_id=2, content_length=4979
+2026-02-10 19:36:59 - restlessresume.app.routers.resume - DEBUG - upload_resume:616 - Resume preview generated: user_id=2
+2026-02-10 19:36:59 - restlessresume.app.routers.resume - INFO - upload_resume:639 - Resume saved to database: id=4, user_id=2
+2026-02-10 19:36:59 - restlessresume.app.routers.resume - DEBUG - upload_resume:648 - Resume embedding stored in ChromaDB: resume_id=4
+2026-02-10 19:36:59 - restlessresume.app.routers.resume - INFO - upload_resume:660 - Resume upload successful: id=4, user_id=2, session_id=4115a526-d9fd-4501-959c-637ad2adabc4
+2026-02-10 19:36:59 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:36:59 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:37:00 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:37:10 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:37:12 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:37:12 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, user_id=2
+2026-02-10 19:37:12 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: 7871f32e-063f-4e53-96ce-261ffc082d0a
+2026-02-10 19:37:12 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['4efcdb15-ef3d-47aa-bc83-90a79092ac10', 'ae22401e-97d0-4e43-88ee-82a6cf613303', '4115a526-d9fd-4501-959c-637ad2adabc4', 'ed94b720-51b4-40d1-b2ca-f5d1d0f1d149', '2d7a2cc0-e819-4f22-8066-4215eb869cdd', '7871f32e-063f-4e53-96ce-261ffc082d0a']
+2026-02-10 19:37:12 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=4979
+2026-02-10 19:37:12 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-10 19:37:18 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=10, suggestions_count=11
+2026-02-10 19:37:18 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 4979
+2026-02-10 19:37:18 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 10
+2026-02-10 19:37:18 - restlessresume.app.routers.resume - DEBUG - optimize_resume:756 - Optimized document written: path=uploads/7871f32e-063f-4e53-96ce-261ffc082d0a_optimized.docx
+2026-02-10 19:37:18 - restlessresume.app.routers.resume - DEBUG - optimize_resume:773 - Diff HTML generated
+2026-02-10 19:37:20 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
+2026-02-10 19:37:20 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=8, user_id=2
+2026-02-10 19:37:20 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, user_id=2
+2026-02-10 19:37:31 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:37:33 - restlessresume.app.routers.resume - INFO - download_resume:882 - Resume download requested: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a
+2026-02-10 19:37:33 - restlessresume.app.routers.resume - INFO - download_resume:906 - Resume download successful: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, filename=RESUME_optimized.docx
+2026-02-10 19:40:45 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-10 19:40:45 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, user_id=2
+2026-02-10 19:40:45 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: 7871f32e-063f-4e53-96ce-261ffc082d0a
+2026-02-10 19:40:45 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['4efcdb15-ef3d-47aa-bc83-90a79092ac10', 'ae22401e-97d0-4e43-88ee-82a6cf613303', '4115a526-d9fd-4501-959c-637ad2adabc4', 'ed94b720-51b4-40d1-b2ca-f5d1d0f1d149', '2d7a2cc0-e819-4f22-8066-4215eb869cdd', '7871f32e-063f-4e53-96ce-261ffc082d0a']
+2026-02-10 19:40:45 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=4979
+2026-02-10 19:40:45 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-10 19:40:55 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=13, suggestions_count=14
+2026-02-10 19:40:55 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 4979
+2026-02-10 19:40:55 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 13
+2026-02-10 19:40:55 - restlessresume.app.routers.resume - DEBUG - optimize_resume:756 - Optimized document written: path=uploads/7871f32e-063f-4e53-96ce-261ffc082d0a_optimized.docx
+2026-02-10 19:40:55 - restlessresume.app.routers.resume - DEBUG - optimize_resume:773 - Diff HTML generated
+2026-02-10 19:40:58 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
+2026-02-10 19:40:58 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=9, user_id=2
+2026-02-10 19:40:58 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, user_id=2

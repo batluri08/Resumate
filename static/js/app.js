@@ -560,14 +560,14 @@ function setupSidebarUpload() {
     // Setup sidebar upload button
     if (sidebarUploadBtn && fileInput) {
         sidebarUploadBtn.addEventListener('click', () => {
-            promptAndUpload();
+            openResumeUploadModal();
         });
     }
     
     // Setup add resume button
     if (addResumeBtn && fileInput) {
         addResumeBtn.addEventListener('click', () => {
-            promptAndUpload();
+            openResumeUploadModal();
         });
     }
     
@@ -581,17 +581,78 @@ function setupSidebarUpload() {
             }
         });
     }
+    
+    // Setup modal handlers
+    setupResumeUploadModal();
 }
 
-// Prompt for name and trigger file upload
-function promptAndUpload() {
-    const name = prompt('Enter a name for this resume (e.g., "Software Engineer Resume"):');
-    if (name === null) return; // User cancelled
+// Setup resume upload modal
+function setupResumeUploadModal() {
+    const modal = document.getElementById('resume-upload-modal');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const cancelBtn = document.getElementById('modal-cancel-btn');
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    const nameInput = document.getElementById('resume-name-input');
     
-    if (fileInput) {
-        fileInput.dataset.resumeName = name.trim() || '';
-        fileInput.click();
+    if (!modal) return;
+    
+    // Close modal
+    const closeModal = () => {
+        modal.classList.remove('show');
+        nameInput.value = '';
+    };
+    
+    // Handle close button
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Handle cancel button
+    cancelBtn.addEventListener('click', closeModal);
+    
+    // Handle confirm button
+    confirmBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        if (!name) {
+            showToast('Please enter a resume name', 'error');
+            nameInput.focus();
+            return;
+        }
+        closeModal();
+        if (fileInput) {
+            fileInput.dataset.resumeName = name;
+            fileInput.click();
+        }
+    });
+    
+    // Handle Enter key in input
+    nameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            confirmBtn.click();
+        }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+}
+
+// Open resume upload modal
+function openResumeUploadModal() {
+    const modal = document.getElementById('resume-upload-modal');
+    const nameInput = document.getElementById('resume-name-input');
+    if (modal) {
+        modal.classList.add('show');
+        nameInput.focus();
+        // Set default name based on current resumes
+        nameInput.value = '';
     }
+}
+
+// Prompt for name and trigger file upload (legacy - replaced with modal)
+function promptAndUpload() {
+    openResumeUploadModal();
 }
 
 // Save profile to localStorage
