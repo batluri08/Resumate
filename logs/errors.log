@@ -260,3 +260,5 @@ WHERE users.email = %(email_1)s
 (Background on this error at: https://sqlalche.me/e/20/f405)
 2026-02-10 18:16:11 - restlessresume.app.routers.auth - ERROR - signup:154 - Signup error for gobhuya@gmail.com: Email already registered
 2026-02-10 18:16:20 - restlessresume.app.routers.auth - ERROR - signup:154 - Signup error for gobhuya@gmail.com: Email already registered
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - ERROR - optimize_resume:786 - Error reconstructing/writing resume file: Package not found at 'uploads/947696ae-d895-4a35-8cf4-b6c8df9c4269_optimized.docx'
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - ERROR - optimize_resume:908 - Resume optimization failed: session_id=947696ae-d895-4a35-8cf4-b6c8df9c4269, user_id=2, error=stat: path should be string, bytes, os.PathLike or integer, not NoneType

@@ -523,3 +523,50 @@ PREFERENCE: Make minimal, conservative changes only.
 2026-02-10 19:40:58 - restlessresume.app.routers.resume - DEBUG - optimize_resume:780 - Optimized preview image generated
 2026-02-10 19:40:58 - restlessresume.app.routers.resume - INFO - optimize_resume:854 - Optimization history saved: id=9, user_id=2
 2026-02-10 19:40:58 - restlessresume.app.routers.resume - INFO - optimize_resume:859 - Resume optimization completed successfully: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a, user_id=2
+2026-02-10 23:11:04 - restlessresume.app.main - DEBUG - apply_schema_migrations:131 - profile_picture column already exists
+2026-02-11 12:15:33 - restlessresume.app.routers.resume - INFO - download_resume:917 - Resume download requested: session_id=7871f32e-063f-4e53-96ce-261ffc082d0a
+2026-02-11 12:15:33 - restlessresume.app.routers.resume - WARNING - download_resume:920 - Download failed: resume not found, session_id=7871f32e-063f-4e53-96ce-261ffc082d0a
+2026-02-11 19:55:43 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-11 19:55:43 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication
+2026-02-11 19:55:51 - restlessresume.app.main - DEBUG - apply_schema_migrations:131 - profile_picture column already exists
+2026-02-12 21:02:24 - restlessresume.app.main - DEBUG - apply_schema_migrations:131 - profile_picture column already exists
+2026-02-12 21:06:48 - restlessresume.app.routers.auth - DEBUG - get_current_user:61 - No valid authentication found (neither JWT nor session cookie)
+2026-02-12 21:06:48 - restlessresume.app.routers.resume - WARNING - resume_page:38 - Resume page accessed without authentication
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - INFO - login:171 - Login attempt for email: gobhuya@gmail.com
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - INFO - login:184 - Login successful for user: id=2, email=gobhuya@gmail.com
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - DEBUG - login:189 - Session and JWT tokens created for user 2
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:06:56 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:06:56 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:14 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:14 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:16 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:16 - restlessresume.app.routers.resume - INFO - profile_page:50 - Profile page accessed by user: id=2
+2026-02-12 21:07:16 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:47 - JWT token validation failed: 'Depends' object has no attribute 'rsplit'
+2026-02-12 21:07:17 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:25 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:25 - restlessresume.app.routers.resume - INFO - resume_page:40 - Resume page accessed by user: id=2
+2026-02-12 21:07:25 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:25 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 21:07:25 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 22:25:21 - restlessresume.app.routers.auth - DEBUG - get_current_user:57 - Current user authenticated via session cookie: id=2
+2026-02-12 22:25:21 - restlessresume.app.routers.resume - INFO - optimize_resume:699 - Resume optimization started: session_id=947696ae-d895-4a35-8cf4-b6c8df9c4269, user_id=2
+2026-02-12 22:25:21 - restlessresume.app.routers.resume - DEBUG - optimize_resume:706 - Optimize called with session_id: 947696ae-d895-4a35-8cf4-b6c8df9c4269
+2026-02-12 22:25:21 - restlessresume.app.routers.resume - DEBUG - optimize_resume:707 - Available sessions: ['b3e8bccd-435e-42f3-9344-15dc0fe84c31', '947696ae-d895-4a35-8cf4-b6c8df9c4269']
+2026-02-12 22:25:21 - restlessresume.app.routers.resume - DEBUG - optimize_resume:718 - Resume found in storage: size=6909
+2026-02-12 22:25:21 - restlessresume.app.routers.resume - DEBUG - optimize_resume:732 - Starting AI optimization with profile context: 
+PREFERENCE: Make minimal, conservative changes only.
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - INFO - optimize_resume:742 - AI optimization complete: changes_count=11, suggestions_count=12
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - DEBUG - optimize_resume:743 - Original content length: 6909
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - DEBUG - optimize_resume:744 - Number of changes from AI: 11
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - DEBUG - optimize_resume:772 - Reconstructed resume file: C:\Users\gobhu\AppData\Local\Temp\tmpbx2bdbs8\resume_original.docx
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - ERROR - optimize_resume:786 - Error reconstructing/writing resume file: Package not found at 'uploads/947696ae-d895-4a35-8cf4-b6c8df9c4269_optimized.docx'
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - DEBUG - optimize_resume:808 - Diff HTML generated
+2026-02-12 22:25:26 - restlessresume.app.routers.resume - ERROR - optimize_resume:908 - Resume optimization failed: session_id=947696ae-d895-4a35-8cf4-b6c8df9c4269, user_id=2, error=stat: path should be string, bytes, os.PathLike or integer, not NoneType
